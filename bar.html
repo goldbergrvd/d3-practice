@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title></title>
+		<script src='d3.min.js'></script>
+	</head>
+	<body>
+		<script>
+			/*var dataset = [14, 48, 24, 61, 15, 53, 25,
+							32, 53, 65, 53, 23, 34, 33,
+							46, 164, 23, 46, 46, 22, 19,
+							14, 48, 24, 61, 15, 53, 25,
+							32, 53, 65, 53, 23, 34, 33,
+							46, 164, 23, 46, 46, 22, 19,
+							14, 48, 24, 61, 15, 53, 25,
+							32, 53, 65, 53, 23, 34, 33,
+							46, 164, 23, 46, 46, 22, 19,
+							14, 48, 24, 61, 15, 53, 25,
+							32, 53, 65, 53, 23, 34, 33,
+							46, 164, 23, 46, 46, 22, 19,
+							14, 48, 24, 61, 15, 53, 25,
+							32, 53, 65, 53, 23, 34, 33,
+							46, 164, 23, 46, 46, 22, 19];*/
+			var w = 1000,
+				h = 100,
+				barPadding = 1;
+
+			function draw(dataset) {
+				d3.select("svg").remove();
+				var rectWidth = w / dataset.length - barPadding;
+
+				var svg = d3.select('body')
+							.append('svg')
+							.attr('width', w)
+							.attr('height', h);
+
+				svg.selectAll('rect')
+					.data(dataset)
+					.enter()
+					.append('rect')
+					.attr('x', function(d, i) {
+						return i * (w / dataset.length);
+					})
+					.attr('y', function(d, i) {
+						return h - d;
+					})
+					.attr('width', rectWidth)
+					.attr('height', function(d) {
+						return d;
+					})
+					.attr('fill', function(d) {
+						return 'rgb(' + (d*5) + ', 0, 0)';
+					});
+			}
+
+			var ds = random();
+			draw(ds);
+			quicksort(ds, 0, ds.length-1)
+			console.log(ds.join(','));
+
+			function quicksort(array, startIndex, endIndex) {
+				if (array === undefined) return;
+				if (startIndex >= endIndex) return;
+				var s = startIndex, e = endIndex;
+
+				var p = s;
+				while (true) {
+					while (array[p] <= array[e] && e - p > 0) e--;
+					if (e - p == 0) break;
+					swap(array, s, e);
+					p = e;
+					while (array[s] <= array[p] && p - s > 0) s++;
+					if (p - s == 0) break;
+					swap(array, s, e);
+					p = s;
+				}
+
+				var leftEndIndex = p - 1;
+				var rightStartIndex = p + 1;
+				if (leftEndIndex > startIndex)
+					quicksort(array, startIndex, leftEndIndex);
+				if (rightStartIndex < endIndex)
+					quicksort(array, rightStartIndex, endIndex);
+			}
+
+			function swap(array, firstIndex, secondIndex) {
+				var temp = array[firstIndex];
+				array[firstIndex] = array[secondIndex];
+				array[secondIndex] = temp;
+				draw(array);
+			}
+
+			function random() {
+				var result = [];
+				for (var i=0; i<100; i++)
+					result.push(Math.floor(Math.random() * 100));
+				return result;
+			}
+		</script>
+	</body>
+</html>

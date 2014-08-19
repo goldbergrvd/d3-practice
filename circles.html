@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>d3 circles</title>
+		<script src='d3.min.js'></script>
+	</head>
+	<body>
+		<script>
+			var width = 500;
+			var height = 50;
+			var dataset = [5, 10, 15, 20, 25];
+
+			var svg = d3.select('body')
+						.append('svg')
+						.attr('width', width)
+						.attr('height', height);
+
+			var circles = svg.selectAll('circle')
+							.data(dataset)
+							.enter()
+							.append('circle');
+
+			circles.attr('cx', function(data, index) {
+						return (index * 50) + 25;
+					})
+					.attr('cy', height/2)
+					.attr('r', function(data) {
+						return data;
+					})
+					.attr('fill', 'purple')
+					.attr('stroke', 'gray')
+					.attr('stroke-width', function(data) {
+						return data / 2;
+					});
+		</script>
+	</body>
+</html>

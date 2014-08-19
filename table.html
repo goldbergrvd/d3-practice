@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title></title>
+		<script src='d3.min.js'></script>
+		<style>
+			table {
+				border: 1px solid #000;
+				border-collapse: collapse;
+			}
+			th, tr, td {
+				border: 1px solid #000;
+				text-align: center;
+			}
+		</style>
+	</head>
+	<body>
+		<script>
+			var header = ['head1', 'head2', 'head3', 'head4'];
+			var dataset = [[1,2,3,4],
+							[5,6,7,8],
+							[9,10,11,12],
+							[13,14,15,16]];
+
+			var table = d3.select('body')
+							.append('table'),
+				thead = table.append('thead'),
+				tbody = table.append('tbody');
+
+				thead.append('tr')
+					.selectAll('th')
+					.data(header)
+					.enter()
+					.append('th')
+					.text(function(h) { return h; });
+
+				var rows = tbody.selectAll('tr')
+								.data(dataset)
+								.enter()
+								.append('tr');
+
+				var cells = rows.selectAll('td')
+								.data(function(row) {
+									return row;
+								})
+								.enter()
+								.append('td')
+								.text(function(d) { return d; });
+		</script>
+	</body>
+</html>
